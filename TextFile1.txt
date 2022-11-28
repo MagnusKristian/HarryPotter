@@ -1,0 +1,97 @@
+﻿Oppgave: 
+
+Harry Potter oppgave!
+
+Du skal starte med å lage en harrypotter character klasse med egenskaper som er unike for hvordan de kan beskrives, eller hva de kan eie eller hva de kan gjøre.
+
+Eksempler er: 
+House: huffelpuff, griffindor, slytherin, ravenclaw
+Items: wand, owl, etc
+
+Få applikasjonen til å printe ut en introduksjon for charakteren, som sier noe om hva de heter, hvilket hus de er medlem av og hvilke items de har
+
+Karakteren skal ha mulighet til å gå inn i en Magibutikk, der kan de kjøpe et dyr:  ugle,rotte eller en katt. De har også mulighet til å kjøpe en tryllestav: føniksstav, unikornstav eller trollstav.
+For å få til dette må du lage en egen klasse som er butikken, og presentere brukeren med en meny for hva personen skal kjøpe.
+
+Karakteren skal ha mulighet til å trylle - ta inn input fra brukeren, og dersom en skriver en riktig trylleformel skal det printes til skjermen at de har utført tryllingen
+trylleformler: 
+vingardium leviosa (får en fjær til å fly)
+hokus pokus (fyrer av fyrverkerier)
+
+
+
+Dersom en karakter har en ugle, har de mulighet til å sende et brev med uglen til en annen karakter. Karakteren som mottar brevet, får da brevet i inventoryen. Et brev inneholder en melding.
+—--------------------------------------------------------------------------------------------------------------------
+
+
+
+Lag en klasse Voldemort som har 100Hp. 
+Dersom du har kjøpt en tryllestav, skal du kunne sloss mot voldemort fram til en av dere har dødd!
+
+Magic store kan inneholde 2 lister over tilgjengelige items
+1 liste som er pets, og en liste som er wands. En wand kan være en ny klasse som arver fra Item, men som i tillegg har en damage property.
+
+Lag en hovedmeny når du går inn i butikken som spør brukeren om de vil kjøpe pets eller wands.
+Du må endre litt på show magical items ved å sende med listen av items du skal vise i butikken (enten wands eller pets).
+Du må også sende listen du skal bruke inn i sell magical items. Dersom du velger å kjøpe pets, brukes pets listen, dersom du skal kjøpe wands er det wands listen du skal bruke.
+Om karakteren har kjøpt en wand må du også kalle på en metode character.IncreaseDamage(wand.Damage), med styrken til wanden.
+
+Basert på hvilken tryllestav du har kjøpt så varierer styrken til karakteren
+Føniksstav- styrke = 30 dmg pr slag
+Unikornstav- styrke = 40 dmg pr slag
+Trollstav - styrke = 50dmg pr slag
+
+Voldemort tar varierende styrke mellom 30-50 pr slag
+
+—----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+Quidditch
+
+Utvid butikken din med brooms:
+Nimbus 2000  -  speed 1000
+Firebolt 	- speed 2000
+Turbo XXX      - speed 500
+
+Dersom du har kjøpt deg en broom, skal du kunne spille quidditch
+
+Når du spiller quidditch havner du på lag med 6 andre harry potter characters
+din rolle er “seeker” 
+
+Lag en klasse som heter QuidditchTeam
+klassen består av en liste med 7 harry potter characters, 
+3 av de må være type chaser,
+2 av de må være type beater
+1 keeper
+1 seeker
+
+Sett sammen 2 quidditchlag til en Quidditchmatch, hjemmelag og bortelag
+
+Match(QuidditchTeam team1, QuidditchTeam team2)
+{
+	while(!team1.WonMatch && !team2.WonMatch)
+{
+	   team1.TryToCatchSnitch(IsSuccessful(10));
+               // try to catch snich øker score med 100 og laget vinner umiddelbart
+	   team2.TryToCatchSnitch(IsSuccessful(10));
+
+               team1.TryToScoreGoal(IsSuccessful(5));
+    // øker lagets goals med 1, 3 eller 5 poeng
+               team2.TryToScoreGoal(IsSuccessful(5));
+
+            PrintScore(team1,team2); //printer ut dersom noen har scored goal
+}
+}
+
+public static bool IsSuccessful(int maxValue)
+   {
+            Random rand = new Random();
+            return rand.Next(0, maxValue) == 2;
+   }
+
+
+
+—------------------------------------------------------------------------------------
