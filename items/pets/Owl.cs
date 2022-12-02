@@ -3,7 +3,7 @@
 public class Owl : Pet
 {
     public new string Name { get; set; }
-    public Owl(string name = "Owl", string description = "This is an Owl, it does Owl-things"):base(name,description,"Owl")
+    public Owl(string name = "Owl", string description = "This is an Owl, it does Owl-things"):base(name,description,"Owl",111)
     {
         Name = name;
     }

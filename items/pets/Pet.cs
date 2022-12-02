@@ -7,7 +7,7 @@ public class Pet :Item
     public string Description { get; set; }
 
 
-    public Pet(string name ,string description,string type):base(name, description, type)
+    public Pet(string name ,string description,string type,int cashValue = 234) :base(name, description, type,cashValue)
     {
         Name = name;
         Description = description;

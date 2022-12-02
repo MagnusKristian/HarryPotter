@@ -63,30 +63,32 @@ public class Shop
                     //Console.WriteLine("trying to fix.");
                     //BuyItem(curCharacter, wands, 0/*0=wandsList*/);
                     BuyItem(curCharacter, MainInventoryList, 0/*0=wandsList*/);
-                    Console.WriteLine("fixing this, maybe...");
-
+                    Console.ReadLine();
                     break;
                 case "2":
                     BuyItem(curCharacter, MainInventoryList, 1/*1=petsList*/);
-                    Console.WriteLine("fixing this, maybe...");
-
+                    Console.ReadLine();
                     break;
                 case "3":
                     Console.WriteLine("-Not made yet.");
+                    Console.ReadLine();
                     break;
                 case "4":
                     Console.WriteLine("-Not made yet.");
+                    Console.ReadLine();
                     break;
                 case "5":
                     Console.WriteLine("Exiting now...");
+                    Console.ReadLine();
                     return;
                     break;
                 default:
                     Console.Clear();
                     Console.WriteLine($"Did not recognize '{choice}', try again.");
+                    Console.ReadLine();
                     break;
             }
-            Console.ReadLine();
+            
             Console.Clear();
         } while (choice != "5");
     }
@@ -134,133 +136,139 @@ public class Shop
     {
         //if (expr)
         //{
-            
+
         //}
 
 
         //TODO: wtf am i even doing, i should probably document my thought process huh? :D
         //could this work?
-        
-        int index1 = 0;
 
+
+        //for each list (of list (of item)) in InventoryList[number(either wands or pets)].
+        //this only gets wands and pets.
+        //structure is: list(of list(of list(of item))) ?
+        //so:   mainlist: (list)
+        //          wands: (list)
+        //              phoenixwands: (list)
+        //                  phoenixwand1: (object)
+        //              Unicornwands: (list)
+        //                  Unicornwand1: (object)
+        //                  Unicornwand2: (object)
+        //              Trollwands: (list)
+        //                  Trollwand1: (object)
+        //                  Trollwand2: (object)
+        //                  Trollwand3: (object)
+        //          pets: (list)
+        //              Owls: (list)
+        //                  Owl1: (object)
+        //              Cats: (list)
+        //                  Cat1: (object)
+        //                  Cat2: (object)
+        //              Rats: (list)
+        //                  Rat1: (object)
+        //                  Rat2: (object)
+        //                  Rat3: (object)
+
+        int index1 = 0;
+        int amountOfItemsToBuy=0;
+        int count = 0;
+        bool outOfInventory = false;
+        //exits if there is no inventory.
+        if (inventoryList[itemTypeIndex].Count < 1)
+        {
+            outOfInventory = true;
+        }
+        if (outOfInventory == true)
+        {
+            Console.WriteLine($"Out of inventory! Someone has bought all the stuff.");
+            return;
+        }
         foreach (var ListOfList in inventoryList[itemTypeIndex])
         {
+            //prints the name,price,stock-amount for each type of item in shop-inventory.
+            //uses and increases "index1" to display what number the user needs to press to select the item.
             if (ListOfList.Count >=1)
             {
-                Console.WriteLine($"{index1 + 1}. = '{ListOfList[0].Name}'- {ListOfList[0].CashValue}$.-{ListOfList.Count} in stock.");
+                Console.WriteLine($"{index1 + 1}. To buy: '{ListOfList[0].Name}'- {ListOfList[0].CashValue}$.-{ListOfList.Count} in stock.");
                 index1++;
+                amountOfItemsToBuy++;
             }
+            if(inventoryList[itemTypeIndex].Count <1)
+            {
+                outOfInventory = true;
+                return;
+            }
+            count++;
         }
         Console.WriteLine($"4. To exit.");
 
         string choice1 = Console.ReadLine();
-
-        for (int i = 0; i < index1; i++)
+        if (choice1 == "4")
         {
-            if (choice1 == i.ToString())
-            {
-                buy(curCharacter, inventoryList[itemTypeIndex][i-1][0].Name, inventoryList[itemTypeIndex][i-1][0].CashValue, inventoryList[itemTypeIndex][i-1]);
-                //her er jeg...
-            }
+            Console.WriteLine($"Exiting now...");
+            Console.ReadLine();
+            return;
         }
-        //public void buy(Character curCharacter,string itemName,int amount, List<Item> items)
+        //checks if the userinput is within the allowed parameters.
+        try
+        {
+            int convertedUserInput = Convert.ToInt32(choice1);
+        }
+        catch (Exception e)
+        {
+            //Console.WriteLine(e);
+            Console.WriteLine($"NOT A NUMBER: Pick a number between '0' - {index1}.");
+            Console.WriteLine($"You chose '{choice1}'.");
+            Console.ReadLine();
+            return;
+        }
+        if (Convert.ToInt32(choice1) > index1 || Convert.ToInt32(choice1) < 1)
+        {
+            Console.WriteLine($"wrong number, pick a number between '0' - {index1}.");
+            Console.WriteLine($"You chose '{choice1}'. (converted:'{Convert.ToInt32(choice1)}')");
+            Console.ReadLine();
+            return;
+        }
+
+        int indexOfItemToBuy = Convert.ToInt32(choice1)-1;
+        //because zeroindexnumber stuff.
+        Console.WriteLine($"this is the number chosen:_indexOfItemToBuy: {indexOfItemToBuy}");
+        Console.ReadLine();
+        buy(curCharacter, inventoryList[itemTypeIndex][indexOfItemToBuy][0].Name, inventoryList[itemTypeIndex][indexOfItemToBuy][0].CashValue, inventoryList[itemTypeIndex][indexOfItemToBuy]);
+        
         //TODO: MASSE BUGS HER. FML.
         if (choice1 == "4")
         {
             return;
         }
 
-
-        //switch (choice1)
-        //{
-        //    case "1":
-        //        buy(curCharacter, "PhoenixWand", 300, inventoryList[itemTypeIndex][0]);
-        //        break;
-        //    case "2":
-        //        buy(curCharacter, "UnicornWand", 400, inventoryList[itemTypeIndex][1]);
-        //        break;
-        //    case "3":
-        //        buy(curCharacter, "TrollWand", 500, inventoryList[itemTypeIndex][2]);
-        //        break;
-        //    case "4":
-        //        Console.WriteLine("Exiting now...");
-        //        return;
-        //    default:
-        //        Console.Clear();
-        //        Console.WriteLine($"Did not recognize '{choice1}', try again.");
-        //        break;
-        //}
-
-        //for (int i = 0; i < itemTypeIndex; i++)
-        //{
-            
-        //}
-
-
-
-
-        //Console.WriteLine($"1. 'PhoenixWand' - 300$. ({inventoryList[itemTypeIndex][0].Count} In stock)");
-        //Console.WriteLine($"2. '{inventoryList[itemTypeIndex][1][0].Name}' - {inventoryList[itemTypeIndex][1][0].CashValue}$. ({inventoryList[itemTypeIndex][1][0].CashValue} In stock)");
-
-        //var ListOfListOfWands
-
-        //Console.WriteLine($"What kind of wand do you want to buy?");
-        //Console.WriteLine($"1. 'PhoenixWand' - 300$. ({inventoryList[itemTypeIndex][0].Count} In stock)");
-        //if (inventoryList[0])
-        //{
-            
-        //}
-        //Console.WriteLine($"2. 'UnicornWand' - 400$. ({inventoryList[itemTypeIndex][1].Count} In stock)");
-        //Console.WriteLine($"3. 'TrollWand' - 500$. ({inventoryList[itemTypeIndex][2].Count} In stock)");
-        //Console.WriteLine($"4. To exit.");
-
-
-        //string choice = "";
-        //choice = Console.ReadLine();
-        //while (choice != "1" && choice != "2" && choice != "3")
-        //{
-        //    Console.WriteLine("sorry, didnt get that, try again.");
-        //    choice = Console.ReadLine();
-        //}
-
-
-        //if (Wands.Count <= 0)
-        //{
-        //    Console.WriteLine("We aint got none of those... sorry!");
-        //    return;
-        //}
-
-        //List<Item> items = new List<Item>();
-
-        //foreach (var wand in Wands)
-        //{
-        //    items.Add(wand);
-        //}
-        //switch (choice)
-        //{
-        //    case "1":
-        //        buy(curCharacter, "PhoenixWand", 300, inventoryList[itemTypeIndex][0]);
-        //        break;
-        //    case "2":
-        //        buy(curCharacter, "UnicornWand", 400, inventoryList[itemTypeIndex][1]);
-        //        break;
-        //    case "3":
-        //        buy(curCharacter, "TrollWand", 500, inventoryList[itemTypeIndex][2]);
-        //        break;
-        //    case "4":
-        //        Console.WriteLine("Exiting now...");
-        //        return;
-        //    default:
-        //        Console.Clear();
-        //        Console.WriteLine($"Did not recognize '{choice}', try again.");
-        //        break;
-        //}
-        //Console.ReadLine();
-        //Console.Clear();
     }
 
     public List<List<List<Item>>> GetInventoryLists()
     {
+        //structure is: list(of list(of list(of item))) ?
+        //so:   mainlist: (list)
+        //          wands: (list)
+        //              phoenixwands: (list)
+        //                  phoenixwand1: (object)
+        //              Unicornwands: (list)
+        //                  Unicornwand1: (object)
+        //                  Unicornwand2: (object)
+        //              Trollwands: (list)
+        //                  Trollwand1: (object)
+        //                  Trollwand2: (object)
+        //                  Trollwand3: (object)
+        //          pets: (list)
+        //              Owls: (list)
+        //                  Owl1: (object)
+        //              Cats: (list)
+        //                  Cat1: (object)
+        //                  Cat2: (object)
+        //              Rats: (list)
+        //                  Rat1: (object)
+        //                  Rat2: (object)
+        //                  Rat3: (object)
+
         //this one is good for now.
         List<Item> PhoenixWands = new List<Item>();
         List<Item> UnicormWands = new List<Item>();
@@ -296,20 +304,22 @@ public class Shop
         }
         //------------------------------------------------------------
         List<List<Item>> wandList = new List<List<Item>>();
-        wandList.Add(PhoenixWands);
-        wandList.Add(TrollWands);
-        wandList.Add(UnicormWands);
+        if (PhoenixWands.Count > 0) { wandList.Add(PhoenixWands); }
+        if (TrollWands.Count > 0) { wandList.Add(TrollWands); }
+        if (UnicormWands.Count > 0) { wandList.Add(UnicormWands); }
+
         List<List<Item>> PetList = new List<List<Item>>();
 
-        PetList.Add(Owls);
-        PetList.Add(Cats);
-        PetList.Add(Rats);
+        if (Owls.Count > 0) { PetList.Add(Owls); }
+        if (Cats.Count > 0) { PetList.Add(Cats); }
+        if (Rats.Count > 0) { PetList.Add(Rats); }
 
         List<List<List<Item>>> MainList = new List<List<List<Item>>>();
         MainList.Add(wandList);
         MainList.Add(PetList);
         //------------------------------------------------------------
         return MainList;
+
     }
     public int[] CheckInventory()
     {
@@ -353,6 +363,7 @@ public class Shop
     
     public void buy(Character curCharacter,string itemName,int price, List<Item> items)
     {
+        Console.WriteLine($"this is what BUY gets as name::_{itemName}");
         bool EnoughCash = curCharacter.GetMoneyAmount()>=price;
         if (!EnoughCash)
         {
