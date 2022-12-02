@@ -7,19 +7,32 @@ public class Shop
     //get rid  of wands or comment out.
     //public List<Wand> Wands { get; set; }
     //public List<Pet> Pets { get; set; }
+    public int PhoenixWandPrice { get; set; }
+    public int UnicornWandPrice { get; set; }
+    public int TrollWandPrice { get; set; }
+    public int OwlPrice { get; set; }
+    public int CatPrice { get; set; }
+    public int RatPrice { get; set; }
 
     public List<Item> Inventory { get; set; }
+    //private List<List<List<Item>>> InventoryList { get; set; }
+    private List<List<List<Item>>> MainInventoryList { get; set; }
+
     //public List<TrollWand> TrollWands { get; set; }
 
     public Shop()
     {
         ShopBalance = 10_000;
-        //Wands = new List<Wand>();
-        //Pets = new List<Pet>();
+        PhoenixWandPrice = 500;
+        UnicornWandPrice = 400;   
+        TrollWandPrice = 300;
+        OwlPrice = 500;
+        CatPrice = 400;
+        RatPrice = 300;
         Inventory = new List<Item>();
         
         AddInventory();
-        
+        MainInventoryList = GetInventoryLists(); //TODO: maybe this?
     }
 
     public void ShopMenu(Character curCharacter)
@@ -27,15 +40,9 @@ public class Shop
         string choice = "";
         do
         {
-            //List<Item>[] ItemList = GetInventory();
+            //List<List<List<Item>>> MainInventoryList = GetInventoryLists();
+            MainInventoryList = GetInventoryLists();
 
-            //List<List<Item>> ItemList2 = new List<List<Item>>();
-
-            //List<List<Item>[]> ListItemList = GetInventoryLists();
-
-            List<List<List<Item>>> MainInventoryList = GetInventoryLists();
-            //List<List<Item>> wands = MainInventoryList[0];
-            //List<List<Item>> pets = MainInventoryList[1];
 
 
             Console.WriteLine("\n ******************************");
@@ -86,6 +93,11 @@ public class Shop
 
     public void AddInventory()
     {
+        //adds items to a general inventory of all things.
+        //"type of item/name","amount of items of that type to add", "which list/where to add it":
+        
+        //AddItemToInventory("type", 1); this?
+
         InventoryManager.AddItemToList("PhoenixWand", 1, Inventory);
         InventoryManager.AddItemToList("UnicornWand",2,Inventory);
         InventoryManager.AddItemToList("TrollWand", 3, Inventory);
@@ -98,6 +110,10 @@ public class Shop
 
         //InventoryManager.AddTrollWandsToList(TrollWands, 5);
 
+    }
+    public void AddItemToInventory(string type,int amount)
+    {
+        InventoryManager.AddItemToList(type, amount, Inventory);
     }
 
     public void UpdateInventory(Item item)
@@ -243,141 +259,9 @@ public class Shop
         //Console.Clear();
     }
 
-
-
-
-
-    public void BuyWand(Character curCharacter, List<List<List<Item>>> inventoryList)
-    {
-        //List<Item>[] list = listItemList;
-        //Item someItem = list[3][0];
-        //Console.WriteLine(someItem.Name);
-
-        //List[0] = phoenixwands
-        //List[1] = unicornwands
-        //and so on...
-        //TODO: wtf am i even doing, i should probably document my thought process huh? :D
-        //could this work?
-        //List<Item>[] inventory = GetInventory();
-        //List<Item>[] ItemList = GetInventory();
-        //List<List<Item>[]>[] ListItemList = GetInventoryLists();
-
-        //--------------------------------
-
-        int[] inventoryCount = CheckInventory();
-
-        Console.WriteLine($"What kind of wand do you want to buy?");
-        Console.WriteLine($"1. 'PhoenixWand' - 300$. ({inventoryList[0][0].Count} In stock)");
-        Console.WriteLine($"2. 'UnicornWand' - 400$. ({inventoryList[0][1].Count} In stock)");
-        Console.WriteLine($"3. 'TrollWand' - 500$. ({inventoryList[0][2].Count} In stock)");
-        Console.WriteLine($"4. To exit.");
-
-
-        string choice = "";
-        choice = Console.ReadLine();
-        while (choice != "1" && choice != "2" && choice != "3")
-        {
-            Console.WriteLine("sorry, didnt get that, try again.");
-            choice = Console.ReadLine();
-        }
-        //if (Wands.Count <= 0)
-        //{
-        //    Console.WriteLine("We aint got none of those... sorry!");
-        //    return;
-        //}
-
-        List<Item> items = new List<Item>();
-
-        //foreach (var wand in Wands)
-        //{
-        //    items.Add(wand);
-        //}
-        switch (choice)
-        {
-            case "1":
-                //buy(curCharacter,"PhoenixWand",300, inventoryList[0]);
-                break;
-            case "2":
-                //buy(curCharacter, "UnicornWand", 400, inventoryList[1]);
-                break;
-            case "3":
-            //buy(curCharacter, "TrollWand", 500, inventoryList[2]);
-                break;
-            case "4":
-                Console.WriteLine("Exiting now...");
-                return;
-            default:
-                Console.Clear();
-                Console.WriteLine($"Did not recognize '{choice}', try again.");
-                break;
-        }
-            //Console.ReadLine();
-            //Console.Clear();
-    }
-    public List<Item>[] GetInventory()
-    {
-
-        List<Item> PhoenixWands = new List<Item>();
-        List<Item> UnicormWands = new List<Item>();
-        List<Item> TrollWands = new List<Item>();
-
-        List<Item> Owls = new List<Item>();
-        List<Item> Cats = new List<Item>();
-        List<Item> Rats = new List<Item>();
-
-        //_--------------------------------------------
-        List<List<Item>> wandList = new List<List<Item>>(3);
-        wandList.Add(PhoenixWands);
-        wandList.Add(TrollWands);
-        wandList.Add(UnicormWands);
-        List<List<Item>> PetList = new List<List<Item>>(3);
-
-        PetList.Add(Owls);
-        PetList.Add(Cats);
-        PetList.Add(Rats);
-
-        List<List<List<Item>>> MainList = new List<List<List<Item>>>(2);
-        MainList.Add(wandList);
-        MainList.Add(PetList);
-
-        //string name = MainList[0] /*wands*/[0] /*phoenixwands*/[0] /*first phoenixwand*/.Name;
-        //Item phoenixwand1 = MainList[0] /*wands*/[0] /*phoenixwands*/[0] /*first phoenixwand*/;
-
-
-        //----------------------------------------------
-
-
-        foreach (var item in Inventory)
-        {
-            switch (item.Name)
-            {
-                case "PhoenixWand":
-                    PhoenixWands.Add(item);
-                    break;
-                case "UnicornWand":
-                    UnicormWands.Add(item);
-                    break;
-                case "TrollWand":
-                    TrollWands.Add(item);
-                    break;
-                case "Owl":
-                    Owls.Add(item);
-                    break;
-                case "Cat":
-                    Cats.Add(item);
-                    break;
-                case "Rat":
-                    Rats.Add(item);
-                    break;
-            }
-        }
-       
-        List<Item>[] inventory = { PhoenixWands, UnicormWands, TrollWands, Owls, Cats, Rats };
-        return inventory;
-    }
     public List<List<List<Item>>> GetInventoryLists()
     {
-        //List<List<Item>[]> GetInventoryLists()
+        //this one is good for now.
         List<Item> PhoenixWands = new List<Item>();
         List<Item> UnicormWands = new List<Item>();
         List<Item> TrollWands = new List<Item>();
@@ -386,134 +270,50 @@ public class Shop
         List<Item> Cats = new List<Item>();
         List<Item> Rats = new List<Item>();
 
-        //List<List<Item>> listTest = new List<List<Item>>();
-        //listTest[0].Add(PhoenixWands);
-        //listTest.Add(UnicormWands);
-        //L
-
-
         foreach (var item in Inventory)
         {
-            switch (item.Name)
+            switch (item.Type.ToLower())
             {
-                case "PhoenixWand":
+                case "phoenixwand":
                     PhoenixWands.Add(item);
                     break;
-                case "UnicornWand":
+                case "unicornwand":
                     UnicormWands.Add(item);
                     break;
-                case "TrollWand":
+                case "trollwand":
                     TrollWands.Add(item);
                     break;
-                case "Owl":
+                case "owl":
                     Owls.Add(item);
                     break;
-                case "Cat":
+                case "cat":
                     Cats.Add(item);
                     break;
-                case "Rat":
+                case "rat":
                     Rats.Add(item);
                     break;
             }
         }
-
-        //List<List<Item>>[] wandss = new List<List<Item>>[3];
-        //wandss[0].Add(PhoenixWands); //= PhoenixWands;
-        //wandss[1].Add(UnicormWands);
-        //wandss[2].Add(TrollWands);
-
-        //List<List<Item>[]> petss = new List<List<Item>[]>(3);
-        //petss[0] = new List<Item>[3]; //Add(Owls); //= PhoenixWands;
-        //petss[0][0] = Cats;
-        //petss[0][1] = Rats;
-        //petss[0][2] = Cats;
-        //int tegs = petss[0][0].Count;
-        //petss[1].Add(Cats);
-        //petss[2].Add(Rats);
-
-        //this
-        List<Item>[] pets = new List<Item>[3];
-        pets[0] = Owls;
-        pets[1] = Rats;
-        pets[2] = Cats;
-
-        List<Item>[] wands = new List<Item>[3];
-        wands[0] = PhoenixWands;
-        wands[1] = UnicormWands;
-        wands[2] = UnicormWands;
-        //this
-
-        //maybe this
-        // List<Item>[] pets = new List<Item>[3];
-
-        //List<List<Item>[]> lists = new List<List<Item>[]>(2);
-        //lists[0] = wands;
-        //lists[1] = pets;
-
-        //Item itemitem = lists[0][0][0];
-
-        //maybe this
-
-
-
-
-        //List<List<Item>>[] inventoryLists = new List<List<Item>>[2];
-        //List<List<List<Item>[]>[]>[] qweqwe = new List<List<List<Item>[]>[]>[2];
-        //int nla = qweqwe[0][0][0].Count;
-        //inventoryLists[0][0][0] = new List<Item>();
-        //inventoryLists[0] = wandss;
-        //inventoryLists[0][0] = TrollWands;
-        //inventoryLists[0][1] = TrollWands;
-
-
-        //int lsls = inventoryLists[0][0].Length;
-
-        //int ienf = inventoryLists[0][0][0].Count; //.Add(wandss);
-
-        //List<Item> Owls = new List<Item>();
-        //List<List<Item>>[] wandss = new List<List<Item>>[3];
-        //List<List<Item>>[]
-
-        //List<List<Item>[]>[] = 
-
-        //______________________________
-
-
-        //List<List<Item>> wands = { PhoenixWands, UnicormWands, TrollWands };
-        //List<Item>[] pets = { Owls, Cats, Rats };
-
-
-        //List<List<Item>[]>[] inventoryListsx = new List<List<Item>[]>[2];
-        //List<List<string>> myList = new List<List<string>>();
-        //inventoryLists[0][0].Add(wands);
-        //inventoryLists[1].Add(pets);
-        List<List<Item>[]> inventoryLists = new List<List<Item>[]>();
-        inventoryLists.Add(wands);
-        inventoryLists.Add(wands);
-        //inventoryLists[0] = wands;
-        //inventoryLists[1] = pets;
-
         //------------------------------------------------------------
-        List<List<Item>> wandList = new List<List<Item>>(3);
+        List<List<Item>> wandList = new List<List<Item>>();
         wandList.Add(PhoenixWands);
         wandList.Add(TrollWands);
         wandList.Add(UnicormWands);
-        List<List<Item>> PetList = new List<List<Item>>(3);
+        List<List<Item>> PetList = new List<List<Item>>();
 
         PetList.Add(Owls);
         PetList.Add(Cats);
         PetList.Add(Rats);
 
-        List<List<List<Item>>> MainList = new List<List<List<Item>>>(2);
+        List<List<List<Item>>> MainList = new List<List<List<Item>>>();
         MainList.Add(wandList);
         MainList.Add(PetList);
         //------------------------------------------------------------
-
         return MainList;
     }
     public int[] CheckInventory()
     {
-        
+        //TODO: fix this, maybe update with wandlist and petlist to update that.
         int PhoenixWand = 0;
         int UnicormWand = 0;
         int TrollWand = 0;
@@ -550,56 +350,7 @@ public class Shop
         int[] inventoryCount = { PhoenixWand, UnicormWand, TrollWand, Owl, Cat, Rat };
         return inventoryCount;
     }
-    public void BuyPet(Character curCharacter)
-    {
-        int[] inventoryCount = CheckInventory();
-        Console.WriteLine($"What kind of Pet do you want to buy?");
-        Console.WriteLine($"1. 'Owl' - 500$. ({inventoryCount[3]} In stock)");
-        Console.WriteLine($"2. 'Cat' - 400$. ({inventoryCount[4]} In stock)");
-        Console.WriteLine($"3. 'Rat' - 300$. ({inventoryCount[5]} In stock)");
-        Console.WriteLine($"4. To exit.");
-
-
-        string choice = "";
-        choice = Console.ReadLine();
-        while (choice != "1" && choice != "2" && choice != "3")
-        {
-            Console.WriteLine("sorry, didnt get that, try again.");
-            choice = Console.ReadLine();
-        }
-        if (Inventory.Count <= 0)
-        {
-            Console.WriteLine("We aint got none of those... sorry!");
-            return;
-        }
-        List<Item> items = new List<Item>();
-        //foreach (var Pet in Pets)
-        //{
-        //    items.Add(Pet);
-        //}
-        switch (choice)
-        {
-            case "1":
-                buy(curCharacter, "Owl", 500, items);
-                break;
-            case "2":
-                buy(curCharacter, "Cat", 400, items);
-                break;
-            case "3":
-                buy(curCharacter, "Rat", 300, items);
-                break;
-            case "4":
-                Console.WriteLine("Exiting now...");
-                return;
-            default:
-                Console.Clear();
-                Console.WriteLine($"Did not recognize '{choice}', try again.");
-                break;
-        }
-        //Console.ReadLine();
-        //Console.Clear();
-    }
-
+    
     public void buy(Character curCharacter,string itemName,int price, List<Item> items)
     {
         bool EnoughCash = curCharacter.GetMoneyAmount()>=price;
